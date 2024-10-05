@@ -1,0 +1,16 @@
+{% extends 'my_app/base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+    {% for song in songs %} #итерируемся по ключам
+        <div>
+            <h2>{{ song.title }}</h2>
+        <p>Опубликован {{post.published}}</p>
+        <p>
+            {{ post.body }}
+        </p>
+
+        </div>
+    {% endfor %}
+{% endblock %}

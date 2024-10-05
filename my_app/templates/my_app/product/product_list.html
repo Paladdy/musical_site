@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список продуктов</title>
+</head>
+<body>
+    <h1>Список продуктов</h1>
+
+    <form method="get">
+        {{ form.as_p }}  <!-- Отображение формы -->
+        <button type="submit">Фильтровать</button>
+    </form>
+
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - {{ product.price }}</li>
+        {% empty %}
+            <li>Нет продуктов.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
