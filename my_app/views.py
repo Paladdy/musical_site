@@ -11,10 +11,12 @@ def song_post_detail(request, id):
 
 def song_list(request): #работаем с запросом пользователя по http
     songs = KeySong.objects.filter(status__code='PB') #ORM-method #select * from KeySong where status published / # сохраняем фильтр с постами в songs
-    return render(request, template_name='my_app/song/list.html', context={'songs': songs}) #отправляем посты на отрисовку в темплейте
+    #return render(request, template_name='my_app/song/list.html', context={'songs': songs})
+    return render(request, 'my_app/song/list.html') #отправляем посты на отрисовку в темплейте
 
 def home(request):
     return render(request, 'my_app/main_page/home.html')
+
 def products_list(request):
     products = Product.objects.all()
     form = PriceFilterForm(request.GET)

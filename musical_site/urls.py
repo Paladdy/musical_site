@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
-from my_app.views import home, products_list, song_post_detail
+from my_app.views import home, products_list, song_post_detail, song_list
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -27,7 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', home, name='home'),
-    path('songs/', song_post_detail, name='song_post_detail' ),
+    path('songs/', products_list, name='products_list' ),
 
     # path('products/', products_list, name='products_list'),
     # path('post_detail/', , name='post_detail'),
