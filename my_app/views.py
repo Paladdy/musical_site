@@ -1,8 +1,13 @@
 from lib2to3.fixes.fix_input import context
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from my_app.models import KeySong, PostStatus, Product
 from .forms import PriceFilterForm
+
+def song_post_detail(request, id):
+    post = get_object_or_404(PostStatus, id=id)
+    return render(request, template_name='my_app/song/list.html', context={'songs': songs})
+    """shortcut для выдачи 404 ошибки"""
 
 def song_list(request): #работаем с запросом пользователя по http
     songs = KeySong.objects.filter(status__code='PB') #ORM-method #select * from KeySong where status published / # сохраняем фильтр с постами в songs

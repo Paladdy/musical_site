@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'musical_site.urls'
+ROOT_URLCONF = 'musical_site.urls' #корневой url.config
 
 TEMPLATES = [
     {
