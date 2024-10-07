@@ -21,6 +21,11 @@ class Product(models.Model):
 
 class KeySong(models.Model):
 
+    # image = models.ImageField(
+    #     upload_to='images/rain_1',  # Папка для хранения изображений
+    #     blank=True,
+    #     verbose_name='Изображение') # ошибка, связанная с отображением + миграциями
+
     """наследуем Model и применяем к нему метод models чтобы Django перевел данные в SQL-тип"""
     title = models.CharField(
         max_length=150,
