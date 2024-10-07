@@ -1,23 +1,83 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Список продуктов</title>
+    <title>Список треков</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Список продуктов</h1>
+    <h1>Список треков</h1>
 
     <form method="get">
-        {{ form.as_p }}  <!-- Отображение формы -->
+        {{ form.as_p }}  <!-- Отображение формы для фильтрации -->
         <button type="submit">Фильтровать</button>
     </form>
 
-    <ul>
-        {% for product in song %}
-            <li>{{ product.name }}  {{ product.price }}</li>
-        {% empty %}
-            <li>Нет продуктов.</li>
-        {% endfor %}
-    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Цена</th>
+                <th>Дата публикации</th>
+                <th>Дата создания</th>
+                <th>Дата обновления</th>
+                <th>Статус</th>
+                <th>Автор</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in song %}
+                <tr>
+                    <td>{{ product.title }}</td>  <!-- Название трека -->
+                    <td>{{ product.description }}</td>  <!-- Описание трека -->
+                    <td>{{ product.price }} ₽</td>  <!-- Цена трека -->
+                    <td>{{ product.published|date:"d.m.Y H:i" }}</td>  <!-- Дата публикации -->
+                    <td>{{ product.created|date:"d.m.Y H:i" }}</td>  <!-- Дата создания -->
+                    <td>{{ product.updated|date:"d.m.Y H:i" }}</td>  <!-- Дата обновления -->
+                    <td>{{ product.status }}</td>  <!-- Статус -->
+                    <td>{{ product.author.username }}</td>  <!-- Автор трека -->
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8">Нет треков.</td>  <!-- Сообщение, если нет треков -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
