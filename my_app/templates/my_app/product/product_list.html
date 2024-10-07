@@ -13,8 +13,8 @@
     </form>
 
     <ul>
-        {% for product in Product %}
-            <li>{{ product.name }} - {{ product.price }}</li>
+        {% for product in song %}
+            <li>{{ product.name }}  {{ product.price }}</li>
         {% empty %}
             <li>Нет продуктов.</li>
         {% endfor %}

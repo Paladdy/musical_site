@@ -1,0 +1,20 @@
+{% extends 'my_app/main_page/home.html' %}
+
+{% block title %}Инфа{% endblock %}
+
+{% block content %}
+    <form method="get">
+        {{ form.as_p }}  <!-- Отображение формы фильтрации -->
+        <button type="submit">Фильтровать</button>
+    </form>
+
+    <ul>
+        {% for product in products %} #тут нужно, чтобы из базы данных получали список песен
+            <li>{{ product.name }} - {{ product.price }}</li>
+        {% empty %}
+            <li>Нет продуктов.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
