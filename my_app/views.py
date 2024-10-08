@@ -5,22 +5,32 @@ from my_app.models import KeySong, PostStatus, Product
 from .forms import PriceFilterForm
 
 def song_post_detail(request, id):
-    songs = get_object_or_404(PostStatus, id=id)
-    return render(request, template_name='my_app/song/list.html', context={'songs': songs})
-    """shortcut для выдачи 404 ошибки"""
 
-def song_list(request): #работаем с запросом пользователя по http
-    songs = KeySong.objects.filter(status__code='PB') #ORM-method #select * from KeySong where status published / # сохраняем фильтр с постами в songs
-    #return render(request, template_name='my_app/song/list.html', context={'songs': songs})
+    """Выдай объект или если нет - 404 ошибку"""
+
+    song_detail = get_object_or_404(PostStatus, id=id)
+    return render(request, template_name='my_app/song/list.html', context={'song_detail': song_detail})
+
+
+def song_list(request):
+
+    """Получи экземпляры только PUBLISHED"""
+
+    songs = KeySong.objects.filter(status__code='PB')
     return render(request, 'my_app/song/list.html', context={'songs': songs}) #отправляем посты на отрисовку в темплейте
 
 def home(request):
+
+    """Главная страница сайта"""
+
     return render(request, 'my_app/main_page/home.html')
 
-def main_page(request):
-    return render(request, 'my_app/main_page/main.html')
 
-def products_list(request): # ФИЛЬТР ДЛЯ ГЛАВНОЙ
+
+def products_list(request):
+
+    """Фильтр по цене"""
+
     song = KeySong.objects.filter(status__code='PB') #Тут изначально Product.objects !!!! KeySong.objects.all()
     form = PriceFilterForm(request.GET) # Форма обработки и валидации данных
 

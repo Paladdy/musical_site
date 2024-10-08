@@ -16,23 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import redirect
-from my_app.views import home, products_list, song_post_detail, song_list, main_page
-from django.conf.urls.static import static
-from django.conf import settings
-
+from my_app.views import home, products_list
 #тут диспетчер смотрит откуда приходит запрос
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # path('', home, name='home'), # ВАЖНО, рабочий
-    path('', main_page, name='main_page'),
-    path('detail/', song_post_detail, name='song_post_detail'),
+    path('', home, name='home'), # Главная страница
+    path('detail/', include('my_app.urls', namespace='my_app')), # Получаем одну песню из базы с dynamic ip
 
-    path('songs/', products_list, name='products_list' ),
+    path('songs/', products_list, name='products_list' ), #фильтр
 
-    path('my_app/', include('my_app.urls', namespace='my_app')),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -31,10 +31,6 @@ class KeySong(models.Model):
         max_length=150,
         verbose_name='Название')
 
-    # image = models.ImageField(
-    #     blank=True,
-    #     upload_to='images/')
-
     description = models.TextField(
         verbose_name='Описание трека')
 

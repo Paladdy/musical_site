@@ -1,12 +1,11 @@
 from django.urls import path
-from my_app import views
+from my_app.views import song_post_detail
+
 
 
 
 app_name = 'musical_site'
 
 urlpatterns = [
-    #path('',views.song_list, name='song_list'), # ВАЖНО
-    # path('',views.products_list, name='product_list'),
-    path('detail/<int:id>/',views.song_post_detail, name='song_post_detail'),
+    path('/<int:id>/',song_post_detail, name='song_post_detail'),
 ]
