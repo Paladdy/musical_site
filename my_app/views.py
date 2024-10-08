@@ -9,7 +9,7 @@ def song_post_detail(request, id):
     """Выдай объект или если нет - 404 ошибку"""
 
     song_detail = get_object_or_404(PostStatus, id=id)
-    return render(request, template_name='my_app/song/list.html', context={'song_detail': song_detail})
+    return render(request, template_name='my_app/song/detail.html', context={'song_detail': song_detail})
 
 
 def song_list(request):

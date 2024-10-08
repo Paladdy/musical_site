@@ -5,10 +5,10 @@
 {% block content %}
     {% for song in songs %} #итерируемся по ключам
         <div>
-        <a href="{% url 'musical_site:song_post_detail' song.id %}">
-            <h2>{{ song.title }}</h2>
+        <a href="{% url 'musical_site:song_post_detail' songs.id %}">
+            <h2>{{ songs.title }}</h2>
         </a>
-        <p>Опубликован{{song.published}}</p>
+        <p>Опубликован{{songs.published}}</p>
         </div>
     {% endfor %}
 {% endblock %}
