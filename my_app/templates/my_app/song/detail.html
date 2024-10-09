@@ -1,10 +1,9 @@
-{%  extends "my_app/base.html" %}
+{% extends 'my_app/base.html' %}
 
-{% block title %}{{song_detail.title}}{% endblock %}
+{% block title %}{{ song.title }}{% endblock %}
 
 {% block content %}
-    <p>
-    {{ song_detail.body }}
-    </p>
-    
+<p>
+    {{ song.description }}
+</p>
 {% endblock %}
