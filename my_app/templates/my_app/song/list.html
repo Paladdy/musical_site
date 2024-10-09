@@ -1,14 +1,16 @@
+
+
 {% extends 'my_app/base.html' %}
 
 {% block title %}Список песен{% endblock %}
 
 {% block content %}
-    {% for song in songs %} #итерируемся по ключам
+    {% for song in songs %} 
         <div>
-        <a href="{% url 'musical_site:song_post_detail' songs.id %}">
-            <h2>{{ songs.title }}</h2>
+        <a href="{% url 'musical_site:song_post_detail' song.id %}">
+            <h2>{{ song.title }}</h2>
         </a>
-        <p>Опубликован{{songs.published}}</p>
+        <p>Опубликован{{song.published}}</p>
         </div>
     {% endfor %}
-{% endblock %}
+{% endblock %} 

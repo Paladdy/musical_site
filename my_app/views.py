@@ -8,8 +8,10 @@ def song_post_detail(request, id):
 
     """Выдай объект или если нет - 404 ошибку"""
 
-    song_detail = get_object_or_404(PostStatus, id=id)
-    return render(request, template_name='my_app/song/detail.html', context={'song_detail': song_detail})
+    song = get_object_or_404(KeySong, id=id)
+    return render(request, 'my_app/song/detail.html', {'song': song})
+
+
 
 
 def song_list(request):
@@ -27,25 +29,25 @@ def home(request):
 
 
 
-def products_list(request):
-
-    """Фильтр по цене"""
-
-    song = KeySong.objects.filter(status__code='PB') #Тут изначально Product.objects !!!! KeySong.objects.all()
-    form = PriceFilterForm(request.GET) # Форма обработки и валидации данных
-
-    if form.is_valid():
-        min_price = form.cleaned_data['min_price'] #используем метод к форме для валидации данных, для получения из словаря cleaned_data минимальной цены и макс
-        max_price = form.cleaned_data['max_price']
-
-    if min_price is not None:
-        song = song.filter(price__gte=min_price)  # Фильтр по минимальной цене
-    if max_price is not None:
-        song = song.filter(price__lte=max_price)  # Фильтр по максимальной цене
-
-    context = {
-        'song': song,
-        'form': form,
-    }
-
-    return render(request, 'my_app/product/product_list.html', context)
+# def products_list(request):
+#
+#     """Фильтр по цене"""
+#
+#     song = KeySong.objects.filter(status__code='PB') #Тут изначально Product.objects !!!! KeySong.objects.all()
+#     form = PriceFilterForm(request.GET) # Форма обработки и валидации данных
+#
+#     if form.is_valid():
+#         min_price = form.cleaned_data['min_price'] #используем метод к форме для валидации данных, для получения из словаря cleaned_data минимальной цены и макс
+#         max_price = form.cleaned_data['max_price']
+#
+#     if min_price is not None:
+#         song = song.filter(price__gte=min_price)  # Фильтр по минимальной цене
+#     if max_price is not None:
+#         song = song.filter(price__lte=max_price)  # Фильтр по максимальной цене
+#
+#     context = {
+#         'song': song,
+#         'form': form,
+#     }
+#
+#     return render(request, 'my_app/product/product_list.html', context)
