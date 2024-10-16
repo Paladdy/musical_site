@@ -7,7 +7,7 @@
 {% block content %}
     {% for song in songs %} 
         <div>
-        <a href="{% url 'musical_site:song_post_detail' song.id %}">
+        <a href="{{song.get_absolute_url}}">
             <h2>{{ song.title }}</h2>
         </a>
         <p>Опубликован{{song.published}}</p>

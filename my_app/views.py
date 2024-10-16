@@ -4,11 +4,11 @@ from django.shortcuts import render, get_object_or_404
 from my_app.models import KeySong, PostStatus, Product
 from .forms import PriceFilterForm
 
-def song_post_detail(request, id):
+def song_post_detail(request, year, slug):
 
     """Выдай объект или если нет - 404 ошибку"""
 
-    song = get_object_or_404(KeySong, id=id)
+    song = get_object_or_404(KeySong, slug=slug, published__year=year)
     return render(request, 'my_app/song/detail.html', {'song': song})
 
 
