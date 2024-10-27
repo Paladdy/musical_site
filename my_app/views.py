@@ -4,12 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from my_app.models import KeySong, PostStatus, Product
 from .forms import PriceFilterForm
 
-def song_post_detail(request, id):
 
-    """Выдай объект или если нет - 404 ошибку"""
-
-    song_detail = get_object_or_404(PostStatus, id=id)
-    return render(request, template_name='my_app/song/detail.html', context={'song_detail': song_detail})
 
 
 def song_list(request):
@@ -18,6 +13,14 @@ def song_list(request):
 
     songs = KeySong.objects.filter(status__code='PB')
     return render(request, 'my_app/song/list.html', context={'songs': songs}) #отправляем посты на отрисовку в темплейте
+
+
+def song_post_detail(request, year, slug):
+
+    """Выдай объект или если нет - 404 ошибку"""
+
+    song = get_object_or_404(KeySong, slug=slug, published__year=year)
+    return render(request, template_name='my_app/song/detail.html', context={'song': song})
 
 def home(request):
 

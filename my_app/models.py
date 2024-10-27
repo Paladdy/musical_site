@@ -28,7 +28,7 @@ class KeySong(models.Model):
     #     blank=True,
     #     verbose_name='Изображение') # ошибка, связанная с отображением + миграциями
 
-    """наследуем Model и применяем к нему метод models чтобы Django перевел данные в SQL-тип"""
+    """Наследуем Model и применяем к нему метод models чтобы Django перевел данные в SQL-тип"""
     title = models.CharField(
         max_length=150,
         verbose_name='Название')

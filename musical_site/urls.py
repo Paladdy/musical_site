@@ -16,13 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
 # from my_app.views import home, products_list
 #тут диспетчер смотрит откуда приходит запрос
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('my_app.urls')),
+    path('', include('my_app.urls', namespace='my_app')),
 
 
     # path('', home, name='home'), # Главная страница
