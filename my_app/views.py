@@ -1,33 +1,64 @@
 from lib2to3.fixes.fix_input import context
-
+from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404
 from my_app.models import KeySong, PostStatus, Product
-from .forms import PriceFilterForm
+from .forms import PriceFilterForm, CommentForm
 
 
-
-
+#------Вывод всех постов-экземпляров из Бд--------
 def song_list(request):
 
     """Получи экземпляры только PUBLISHED"""
 
     songs = KeySong.objects.filter(status__code='PB')
     return render(request, 'my_app/song/list.html', context={'songs': songs}) #отправляем посты на отрисовку в темплейте
+#--------------------------------------------------
 
 
+#------Вывод деталей поста-----------
 def song_post_detail(request, year, slug):
 
     """Выдай объект или если нет - 404 ошибку"""
-
     song = get_object_or_404(KeySong, slug=slug, published__year=year)
-    return render(request, template_name='my_app/song/detail.html', context={'song': song})
+    comments = song.comments.all()
+    form = CommentForm()
+    return render(request,
+                  template_name='my_app/song/detail.html',
+                  context={'song': song,
+                           'form': form,
+                           'comments': comments})
+
+
+#------Обработка только ПОСТ-запросов-------
+@require_POST
+#1) Прилетает пост-запрос для БД от пользователя
+def post_comment(request,post_id):
+
+    #2) Вернет или не вернет экземпляр поста и сохранит в пост. Просто вытаскиваем наш экземпляр из модели главного поста
+    post = get_object_or_404(KeySong, id=post_id) # этот post связан (переопределен) в comment.post = post, чтобы знать под каким постом какой комментарий
+
+    #3) Сохранится в форму то, что будет отправлено пользователем
+    form = CommentForm(request.POST) # на form прилетят данные, указанные в ПОСТ-запросе
+    comment = None # Предполагаем, что изначально комментарий пустой, инициализируем переменную для дальнейшей проверки
+
+    if form.is_valid():
+        comment = form.save(commit=False) # пока не сохраняем в БД
+        comment.post = post # .post = вызываем поле из models, = post(foreign key) указываем к какому посту данный коммент
+        comment.save() # Сохраняем комментарий в БД
+
+
+    return render(request, template_name='my_app/song/comment.html',
+                  context={'post': post,
+                           'form': form,
+                           'comment': comment})
+
+
 
 def home(request):
 
     """Главная страница сайта"""
 
     return render(request, 'my_app/main_page/home.html')
-
 
 
 def products_list(request):

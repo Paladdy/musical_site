@@ -3,7 +3,28 @@
 {% block title %}{{ song.title }}{% endblock %}
 
 {% block content %}
-<p>
-    {{ song.description }}
-</p>
+    <h2>{{ song.title }}</h2>
+    <p>
+    {{ song.body }}
+    </p>
+    <p>
+    <i>{{ song.published }} by {{ song.author }}</i>
+    </p>
+    <div>
+    {% with comments.count as total_comments %}
+        <h3>
+        {{ total_comments }} comments 
+        </h3>
+    {% endwith %}
+    </div>
+    <div>
+    {% for comment in comments %}
+        <p>Комментарий от {{ comment.name }}</p>
+        <p>{{comment.created}}</p>
+        <p>{{comment.body}}</p>
+    {% empty %}    
+        <p> Пока нет комментариев </p>
+    {% endfor %}
+    </div>
+    {% include "my_app/song/includes/comment_form.html" %}
 {% endblock %}
