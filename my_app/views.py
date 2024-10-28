@@ -32,7 +32,7 @@ def song_post_detail(request, year, slug):
 #------Обработка только ПОСТ-запросов-------
 @require_POST
 #1) Прилетает пост-запрос для БД от пользователя
-def post_comment(request,post_id):
+def post_comment(request, post_id):
 
     #2) Вернет или не вернет экземпляр поста и сохранит в пост. Просто вытаскиваем наш экземпляр из модели главного поста
     post = get_object_or_404(KeySong, id=post_id) # этот post связан (переопределен) в comment.post = post, чтобы знать под каким постом какой комментарий
