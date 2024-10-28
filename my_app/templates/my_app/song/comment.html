@@ -4,7 +4,7 @@
 
 {% block content %}
     {% if comment %}
-        <p><a href="{{ post.get_absolute_url }}">Ваш коммент успешно добавлен!</a></p>
+        <p><a href="{{ song.get_absolute_url }}">Ваш коммент успешно добавлен!</a></p>
         {% else %}
             <p>{% include "my_app/song/includes/comment_form.html" %}</p>
     {% endif %}

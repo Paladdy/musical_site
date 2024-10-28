@@ -32,10 +32,10 @@ def song_post_detail(request, year, slug):
 #------Обработка только ПОСТ-запросов-------
 @require_POST
 #1) Прилетает пост-запрос для БД от пользователя
-def post_comment(request, post_id):
+def post_comment(request, song_id):
 
     #2) Вернет или не вернет экземпляр поста и сохранит в пост. Просто вытаскиваем наш экземпляр из модели главного поста
-    post = get_object_or_404(KeySong, id=post_id) # этот post связан (переопределен) в comment.post = post, чтобы знать под каким постом какой комментарий
+    song = get_object_or_404(KeySong, id=song_id) # этот post связан (переопределен) в comment.post = post, чтобы знать под каким постом какой комментарий
 
     #3) Сохранится в форму то, что будет отправлено пользователем
     form = CommentForm(request.POST) # на form прилетят данные, указанные в ПОСТ-запросе
@@ -43,12 +43,12 @@ def post_comment(request, post_id):
 
     if form.is_valid():
         comment = form.save(commit=False) # пока не сохраняем в БД
-        comment.post = post # .post = вызываем поле из models, = post(foreign key) указываем к какому посту данный коммент
+        comment.song = song # .post = вызываем поле из models, = post(foreign key) указываем к какому посту данный коммент
         comment.save() # Сохраняем комментарий в БД
 
 
     return render(request, template_name='my_app/song/comment.html',
-                  context={'post': post,
+                  context={'song': song,
                            'form': form,
                            'comment': comment})
 
