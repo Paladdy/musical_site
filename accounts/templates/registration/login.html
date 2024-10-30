@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Логин{% endblock %} 
+
+{% block content %}
+    <h1>Логин</h1>
+<div id='login_form'>
+    <form method="post">
+    {{ form.as_div }}
+    {% csrf_token %}
+    <button type="submit">Войти</button>
+    </form>
+</div>    
+{% endblock %}
+
+
+

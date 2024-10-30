@@ -67,6 +67,7 @@ class KeySong(models.Model):
         return self.title
 
     def get_absolute_url(self):
+        """Позволяет сформировать более понятную slug-ссылку в браузере с годом и слагом"""
         return reverse(viewname='musical_site:song_post_detail', args=[self.published.year, self.slug])
 
 class Comment(models.Model):

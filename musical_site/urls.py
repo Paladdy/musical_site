@@ -24,6 +24,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('my_app.urls', namespace='my_app')),
+    path('', include('accounts.urls', namespace='accounts')),
 
 
     # path('', home, name='home'), # Главная страница
