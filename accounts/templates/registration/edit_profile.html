@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Изменение профиля{% endblock %}
+
+{% block content %}
+    <div>
+        <h2>Редактирование профиля</h2>
+        <hr>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_div }}
+            <button type="submit">Изменить</button>
+        </form>
+    </div>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/gothic_style.css' %}">
+{% endblock %}

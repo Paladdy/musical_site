@@ -1,4 +1,5 @@
 {% extends 'my_app/base.html' %}
+{% load static %}
 
 {% block title %}Список песен{% endblock %}
 
@@ -8,6 +9,8 @@
         <a href="{{ song.get_absolute_url }}">
             <h2>{{ song.title }}</h2>
         </a>
+             <h3>{{ song.price }}</h3>
+             <p>{{ song.description }}</p>
         <p>Опубликован: {{ song.published }}</p>
         </div>
     {% endfor %}

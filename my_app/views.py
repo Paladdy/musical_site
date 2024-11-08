@@ -15,7 +15,7 @@ def song_list(request):
 #--------------------------------------------------
 
 
-#------Вывод деталей поста-----------
+#------Вывод всех постов-----------
 def song_post_detail(request, year, slug):
 
     """Выдай объект или если нет - 404 ошибку"""
@@ -52,6 +52,9 @@ def post_comment(request, song_id):
                            'form': form,
                            'comment': comment})
 
+
+def test_view(request):
+    return render(request, template_name='my_app/song/practica.html')
 
 
 def home(request):

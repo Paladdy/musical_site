@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include('accounts.urls', namespace='accounts')),
 
 
+
     # path('', home, name='home'), # Главная страница
 
 

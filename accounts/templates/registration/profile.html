@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/gothic_style.css' %}">
+</head>
+<div>
+    <h2>Ваш профиль</h2>
+    <hr>
+    <div>
+        <table>
+            <tr>
+                <th>Имя пользователя</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Дата рождения</th>
+                <td>{{ user.profile.birth_date }}</td>
+            </tr>
+            <tr>
+                <th>Город</th>
+                <td>{{ user.profile.location }}</td>
+            </tr>
+            <tr>
+                <th>О себе</th>
+                <td>{{ user.profile.bio }}</td>
+            </tr>
+        </table>
+    </div>
+<div>
+    <a href="{% url "accounts:logout_view" %}">Разглогиниться</a>
+    <a href="{% url "accounts:profile_edit_view" %}">Изменить данные профиля</a><br>
+</div>
+</div>
+{% endblock %}
