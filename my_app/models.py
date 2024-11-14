@@ -73,10 +73,11 @@ class KeySong(models.Model):
 
 class Comment(models.Model):
     song = models.ForeignKey(KeySong, on_delete=models.CASCADE, related_name='comments')
-    name = models.CharField(max_length=150)
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f'Comment by {self.name}'
+
+    # def __str__(self):
+    #     return f'Comment by {self.author}'

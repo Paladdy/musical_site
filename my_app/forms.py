@@ -1,5 +1,5 @@
 from django import forms
-from my_app.models import Comment
+from my_app.models import Comment, PostStatus, KeySong
 from django.core.validators import RegexValidator, EmailValidator, URLValidator
 
 
@@ -7,7 +7,19 @@ class CommentForm(forms.ModelForm):
     """Быстро и без деталей"""
     class Meta:
         model = Comment
-        fields = ['name', 'body']
+        fields = ['body']
+
+    author = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+
+class NewPostForm(forms.ModelForm):
+    class Meta:
+        model = KeySong
+        fields = ['title', 'status']
+        widgets = {
+            'title': forms.TextInput(),
+            'body': forms.Textarea(attrs={'rows': 10, 'cols': 100}),
+            'status': forms.Select()
+        }
 
 
 

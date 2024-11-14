@@ -8,7 +8,7 @@
     {{ song.body }}
     </p>
     <p>
-    <i>{{ song.published }} by {{ song.author }}</i>
+    <i>{{ song.published }} by {{ song.author.first_name }}</i>
     </p>
     <div>
     {% with comments.count as total_comments %}
@@ -19,12 +19,16 @@
     </div>
     <div>
     {% for comment in comments %}
-        <p>Комментарий от {{ comment.name }}</p>
+        <p>Комментарий от {{ comment.author.first_name }}</p>
         <p>{{comment.created}}</p>
         <p>{{comment.body}}</p>
     {% empty %}    
         <p> Пока нет комментариев </p>
     {% endfor %}
     </div>
+    {% if user.is_authenticated %}
     {% include "my_app/song/includes/comment_form.html" %}
+    {% else %}
+        Пожалуйста, <a href="{% url 'accounts:login_view' %}">войдите</a> в аккаунт, чтобы оставить коммент.
+    {% endif %}
 {% endblock %}

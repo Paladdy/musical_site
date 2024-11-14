@@ -1,8 +1,11 @@
 from lib2to3.fixes.fix_input import context
 from django.views.decorators.http import require_POST
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from my_app.models import KeySong, PostStatus, Product
-from .forms import PriceFilterForm, CommentForm
+from .forms import PriceFilterForm, CommentForm, NewPostForm
+from django.contrib.auth.decorators import login_required
+from django.utils.text import slugify
+from unidecode import unidecode
 
 
 #------Вывод всех постов-экземпляров из Бд--------
@@ -30,6 +33,7 @@ def song_post_detail(request, year, slug):
 
 
 #------Обработка только ПОСТ-запросов-------
+@login_required
 @require_POST
 #1) Прилетает пост-запрос для БД от пользователя
 def post_comment(request, song_id):
@@ -44,6 +48,7 @@ def post_comment(request, song_id):
     if form.is_valid():
         comment = form.save(commit=False) # пока не сохраняем в БД
         comment.song = song # .post = вызываем поле из models, = post(foreign key) указываем к какому посту данный коммент
+        comment.author = request.user
         comment.save() # Сохраняем комментарий в БД
 
 
@@ -57,32 +62,52 @@ def test_view(request):
     return render(request, template_name='my_app/song/practica.html')
 
 
-def home(request):
+# def home(request):
+#
+#     """Главная страница сайта"""
+#
+#     return render(request, 'my_app/main_page/home.html')
 
-    """Главная страница сайта"""
 
-    return render(request, 'my_app/main_page/home.html')
+@login_required
+def new_post_view(request):
+    if request.method == 'POST':
+        form = NewPostForm(request.POST)
+        if form.is_valid():
+            song = form.save(commit=False)
+            song.author = request.user
+            song.slug = slugify(unidecode(song.title))
+            song.save()
+            return redirect('my_app:song_list')
+        else:
+            form = NewPostForm()
+        return render(request, template_name='my_app/song/new_song.html', context={'form': form})
 
 
-def products_list(request):
 
-    """Фильтр по цене"""
 
-    song = KeySong.objects.filter(status__code='PB') #Тут изначально Product.objects !!!! KeySong.objects.all()
-    form = PriceFilterForm(request.GET) # Форма обработки и валидации данных
 
-    if form.is_valid():
-        min_price = form.cleaned_data['min_price'] #используем метод к форме для валидации данных, для получения из словаря cleaned_data минимальной цены и макс
-        max_price = form.cleaned_data['max_price']
 
-    if min_price is not None:
-        song = song.filter(price__gte=min_price)  # Фильтр по минимальной цене
-    if max_price is not None:
-        song = song.filter(price__lte=max_price)  # Фильтр по максимальной цене
 
-    context = {
-        'song': song,
-        'form': form,
-    }
-
-    return render(request, 'my_app/product/product_list.html', context)
+# def products_list(request):
+#
+#     """Фильтр по цене"""
+#
+#     song = KeySong.objects.filter(status__code='PB') #Тут изначально Product.objects !!!! KeySong.objects.all()
+#     form = PriceFilterForm(request.GET) # Форма обработки и валидации данных
+#
+#     if form.is_valid():
+#         min_price = form.cleaned_data['min_price'] #используем метод к форме для валидации данных, для получения из словаря cleaned_data минимальной цены и макс
+#         max_price = form.cleaned_data['max_price']
+#
+#     if min_price is not None:
+#         song = song.filter(price__gte=min_price)  # Фильтр по минимальной цене
+#     if max_price is not None:
+#         song = song.filter(price__lte=max_price)  # Фильтр по максимальной цене
+#
+#     context = {
+#         'song': song,
+#         'form': form,
+#     }
+#
+#     return render(request, 'my_app/product/product_list.html', context)
