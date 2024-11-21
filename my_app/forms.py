@@ -3,6 +3,9 @@ from my_app.models import Comment, PostStatus, KeySong
 from django.core.validators import RegexValidator, EmailValidator, URLValidator
 
 
+
+
+
 class CommentForm(forms.ModelForm):
     """Быстро и без деталей"""
     class Meta:
@@ -14,10 +17,11 @@ class CommentForm(forms.ModelForm):
 class NewPostForm(forms.ModelForm):
     class Meta:
         model = KeySong
-        fields = ['title', 'status']
+        fields = ['title', 'status', 'price']
         widgets = {
             'title': forms.TextInput(),
             'body': forms.Textarea(attrs={'rows': 10, 'cols': 100}),
+            'price': forms.NumberInput(attrs={'step': '0.01', 'min': '0'}),
             'status': forms.Select()
         }
 
@@ -38,8 +42,6 @@ class NewPostForm(forms.ModelForm):
 
 
 
-class PriceFilterForm(forms.Form):
-    min_price = forms.DecimalField(required=False, label="Минимальная цена", min_value=1000, decimal_places=2)
-    max_price = forms.DecimalField(required=False, label="Максимальная цена", min_value=1000, decimal_places=2)
+
 
 

@@ -13,8 +13,18 @@ class PostStatus(models.Model):
     """Open Close Principal"""
 
 class Product(models.Model):
+    """Поля, которые уже были"""
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Поле для цены
+    #==========================================
+    # category = models.ForeignKey(Category,
+    #                              related_name='products',
+    #                              on_delete=models.CASCADE)
+    # slug = models.SlugField(max_length=100,
+    #                         unique=True,
+    #                         verbose_name='слаг')
+    # image
+
 
 
     def __str__(self):

@@ -4,6 +4,44 @@
 {% block title %}Список песен{% endblock %}
 
 {% block content %}
+    <h1>Каталог Песен</h1>
+    
+    <!-- Форма фильтрации -->
+    <div>
+    <form method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" />
+    </form>
+    {% for song in filter.qs %}
+        {{ song.title }} - ${{ song.price }}<br />
+    {% endfor %}
+    </div>
+{#    <form method="get">#}
+{#    {% csrf_token %}#}
+{#    <div>#}
+{#        <label for="id_min_price">Минимальная цена:</label>#}
+{#        <input type="number" step="0.01" name="min_price" id="id_min_price" value="{{ filter.min_price.value }}">#}
+{#    </div>#}
+{#    <div>#}
+{#        <label for="id_max_price">Максимальная цена:</label>#}
+{#        <input type="number" step="0.01" name="max_price" id="id_max_price" value="{{ filter.max_price.value }}">#}
+{#    </div>#}
+{#    <button type="submit">Применить фильтр</button>#}
+{#</form>#}
+    
+{#     <form method="get">#}
+{#        {{ filter.form.as_p }}#}
+{#        <input type="submit" />#}
+{#    </form>#}
+{#    {% for song in filter.qs %}#}
+{#        {{ song.name }} - ${{ song.price }}<br />#}
+{#    {% endfor %}#}
+ 
+
+
+    
+    
+    <!--- Основа ------>
     {% for song in songs %}
         <div>
         <a href="{{ song.get_absolute_url }}">

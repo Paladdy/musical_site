@@ -2,7 +2,8 @@ from lib2to3.fixes.fix_input import context
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404, redirect
 from my_app.models import KeySong, PostStatus, Product
-from .forms import PriceFilterForm, CommentForm, NewPostForm
+from .filters import SearchFilter
+from .forms import CommentForm, NewPostForm
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from unidecode import unidecode
@@ -14,8 +15,17 @@ def song_list(request):
     """Получи экземпляры только PUBLISHED"""
 
     songs = KeySong.objects.filter(status__code='PB')
-    return render(request, 'my_app/song/list.html', context={'songs': songs}) #отправляем посты на отрисовку в темплейте
+    product_filter = SearchFilter(request.GET, queryset=songs)
+    songs = product_filter.qs
+
+    return render(request,
+                  'my_app/song/list.html',
+                   context={'songs': songs,
+                            # 'products': products,
+                            'filter': product_filter}) #отправляем посты на отрисовку в темплейте
 #--------------------------------------------------
+
+
 
 
 #------Вывод всех постов-----------
@@ -77,11 +87,43 @@ def new_post_view(request):
             song = form.save(commit=False)
             song.author = request.user
             song.slug = slugify(unidecode(song.title))
+
+            """Если поле прайс отсутствует в модели, то по умолчанию значение цены равно 0"""
+            if not song.price:
+                song.price = 0
+
             song.save()
             return redirect('my_app:song_list')
-        else:
-            form = NewPostForm()
-        return render(request, template_name='my_app/song/new_song.html', context={'form': form})
+    else:
+        form = NewPostForm()
+    return render(request, template_name='my_app/song/new_song.html', context={'form': form})
+
+
+
+# def filter_view(request):
+#     f = PriceFilterForm(request.GET, queryset=KeySong.objects.filter(status__code='PB'))
+#
+#     songs = f.qs
+
+
+
+
+    # if f.is_valid():
+    #     # Извлекаем значения из формы
+    #     min_price = f.cleaned_data.get('min_price')
+    #     max_price = f.cleaned_data.get('max_price')
+    #
+    #     # Применяем фильтрацию по цене, если указаны параметры
+    #     if min_price:
+    #         songs = songs.filter(price__gte=min_price)  # фильтрация по минимальной цене
+    #     if max_price:
+    #         songs = songs.filter(price__lte=max_price)
+
+    return render(request, 'my_app/song/list.html', {'filter': f, 'songs': songs})
+
+
+
+
 
 
 

@@ -5,7 +5,6 @@
 
 {% block content %}
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/gothic_style.css' %}">
 </head>
 <div>
     <h2>Ваш профиль</h2>
@@ -32,7 +31,7 @@
     </div>
 <div>
     <ul>
-        <li><a href="{% url "my_app:new_post_view" %}">Новый пост</a></li>
+        <li><a href="{% url "my_app:new_post" %}">Новый пост</a></li>
         <li><a href="{% url "accounts:logout_view" %}">Разлогиниться</a></li>
         <li><a href="{% url "accounts:profile_edit_view" %}">Изменить данные профиля</a><br></li>
     </ul>
